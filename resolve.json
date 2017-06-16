@@ -1,0 +1,9 @@
+[
+    {
+        "name": "ffmpeg",
+        "resolver": "git",
+        "method": "checkout",
+        "checkout": "n3.3.2",
+        "sources": ["git@github.com:FFmpeg/FFmpeg.git"]
+    }
+]

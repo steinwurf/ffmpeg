@@ -1,6 +1,6 @@
 [
     {
-        "name": "ffmpeg",
+        "name": "ffmpeg_source",
         "resolver": "git",
         "method": "checkout",
         "checkout": "n3.3.2",

@@ -17,7 +17,7 @@ def build(bld):
 
     path = os.path.join(bld.bldnode.abspath(), 'build.log')
     bld.logger = waflib.Logs.make_logger(path, 'cfg')
-    ffmpeg_path = bld.dependency_path('ffmpeg')
+    ffmpeg_path = bld.dependency_path('ffmpeg_source')
 
     config_cmd = './configure --disable-programs --prefix={}'.format(
         bld.bldnode.abspath())

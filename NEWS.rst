@@ -8,6 +8,10 @@ Latest
 ------
 * tbd
 
+1.1.0
+-----
+* Minor: Renamed ``ffmpeg`` to ``ffmpeg_source``.
+
 1.0.0
 -----
 * Major: Initial release.

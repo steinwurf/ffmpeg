@@ -6,7 +6,7 @@ import waflib
 import waflib.Tools.ccroot
 
 APPNAME = 'ffmpeg'
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 
 
 def configure(conf):

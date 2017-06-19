@@ -1,0 +1,10 @@
+
+# Waf files
+waf-*
+waf3-*
+.waf-*
+.waf3-*
+.lock-*
+build
+resolve_symlinks
+resolved_dependencies

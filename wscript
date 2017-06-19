@@ -3,6 +3,7 @@
 
 import os
 import waflib
+import waflib.Tools.ccroot
 
 APPNAME = 'ffmpeg'
 VERSION = '0.0.0'
@@ -35,5 +36,8 @@ def build(bld):
         'swscale']
 
     for lib in libs:
-        bld.read_stlib(
-            lib, paths=['./build/lib'], export_includes=['./build/include'])
+        waflib.Tools.ccroot.read_stlib(
+            bld,
+            lib,
+            paths=['./build/lib'],
+            export_includes=['./build/include'])

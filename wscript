@@ -2,42 +2,49 @@
 # encoding: utf-8
 
 import os
-import waflib
-import waflib.Tools.ccroot
 
 APPNAME = 'ffmpeg'
 VERSION = '1.1.0'
 
 
 def configure(conf):
+
     conf.find_program('make')
+
+    config_cmd = './configure --disable-programs --prefix={}'.format(
+        conf.out_dir)
+
+    conf.cmd_and_log(config_cmd,
+                     cwd=str(conf.dependency_path('ffmpeg_source')))
 
 
 def build(bld):
 
-    path = os.path.join(bld.bldnode.abspath(), 'build.log')
-    bld.logger = waflib.Logs.make_logger(path, 'cfg')
     ffmpeg_path = bld.dependency_path('ffmpeg_source')
+    if bld.cmd == 'clean':
+        bld.cmd_and_log('make clean', cwd=ffmpeg_path)
+    else:
+        bld.cmd_and_log('make -j {}'.format(bld.options.jobs), cwd=ffmpeg_path)
+        bld.cmd_and_log('make install', cwd=ffmpeg_path)
 
-    config_cmd = './configure --disable-programs --prefix={}'.format(
-        bld.bldnode.abspath())
+        libs = [
+            'avcodec',
+            'avdevice',
+            'avfilter',
+            'avformat',
+            'avutil',
+            'swresample',
+            'swscale']
 
-    bld.cmd_and_log(config_cmd, cwd=ffmpeg_path)
-    bld.cmd_and_log('make -j {}'.format(bld.options.jobs), cwd=ffmpeg_path)
-    bld.cmd_and_log('make install', cwd=ffmpeg_path)
+        include = os.path.join(bld.bldnode.abspath(), 'include')
+        path = os.path.join(bld.bldnode.abspath(), 'lib')
+        for lib in libs:
+            bld.read_stlib(
+                lib,
+                paths=[path],
+                export_includes=[include])
 
-    libs = [
-        'avcodec',
-        'avdevice',
-        'avfilter',
-        'avformat',
-        'avutil',
-        'swresample',
-        'swscale']
 
-    for lib in libs:
-        waflib.Tools.ccroot.read_stlib(
-            bld,
-            lib,
-            paths=['./build/lib'],
-            export_includes=['./build/include'])
+def distclean(ctx):
+    ffmpeg_path = ctx.dependency_path('ffmpeg_source')
+    ctx.cmd_and_log('make distclean', cwd=ffmpeg_path)
